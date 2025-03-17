@@ -92,16 +92,15 @@ ul {
 #logos{
       position: absolute;
       display: flex;
-      top: -12px;
-      left: 8px;
+      top: -5%;
+      left: -5%;
       flex-direction: column;
       gap:10px;
 }
 
 .logo{
       user-select: none;
-      top: 10%;
-      width: 11%;
+      width: 13%;
       border-radius: 90px;
 }
 

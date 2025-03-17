@@ -1,9 +1,13 @@
+html {
+      height: 100%;
+}
+
 body {
+      height: 100%;
       user-select: none;
-      display: flex;
       background-color: #0d1117;
       justify-content: center;
-      font-size: 25px;
+      font-size: clamp(12px, 1.5vw, 18px);
       font-family: monospace;
 }
 
@@ -14,58 +18,55 @@ ul {
 }
 
 #deck {
-      margin-top: 2%;
+      height: 90%;
+      margin-top: clamp(20px,2%,2%);
       position: relative;
       display: flex;
       justify-content: center;
+      /* para ordenar las cartas correctamente
+      * se altera su z-index, y para asegurarme de que 
+      * el elemento Deck nunca bloquea la interacción
+      * de las cartas con el mouse hay que editar el 
+      * z-index */
+      z-index: 10000;
 }
 
 .card {
-      top: 0px;
       position: absolute;
       display: flex;
       flex-direction: column;
-      justify-content: left;
-      gap: 10px;
-      width: clamp(200px,500px,500px);
-      background-color: #131e2c ;
+      align-items: center;
+      gap: 5%;
+      height: 80%;
+      background-color: #131e2c;
       color: #f2f2f2;
       aspect-ratio: 7/11;
       border: #2c4564/*#c8c8e3*/ solid 18px;
       border-radius: 9px;
-     
-      
+
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-/*
-      border-image: linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1;
-      border-style: solid;
-      border-width: 4px;
-*/
 }
-
-.card:hover {
-      transform: translateY(-15px) translateX(-5px);
-      box-shadow: 12px 12px 12px 12px rgba(0, 7, 19, 0.6)
-}
-
-
 
 .card-title {
-      margin-top: 10px;
-      padding-left: 30px;
-      padding-bottom: 18px;
+      margin-left: 6%;
+      margin-right: 6%;
+      margin-top: 6%;
       color: #876dc7;
-      font-family: monospace;
       font-weight: bold;
-      font-size: 35px;
+      font-size: clamp(16px, 3vw, 31px);
+}
+
+#presentation-images{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 86%;
+      position: relative;
 }
 
 #foto-dario{
-      width: 88%;
-      margin-left: auto;
-      margin-right: auto;
+      width: 100%;
       border-radius: 6px;
-      margin-left: 25px;
       /*
       box-shadow: 12px 12px 12px rgba(0, 7, 19, 0.6)
 */
@@ -80,21 +81,12 @@ ul {
       color: #598cd0;
 }
 
-li{
-      font-size: 18px;
-}
-
-p {
-      font-size: 18px;
-}
-
 .description{
-      margin-left: 25px;
-      margin-right: 30px;
-}
-
-#presentation-images{
-      position: relative;
+      border-radius: 6px;
+      background-color: #0d1117;
+      width: 82%;
+      padding: 1% 2% 1% 2%;
+      word-break: break-word;
 }
 
 #logos{
@@ -113,10 +105,7 @@ p {
       border-radius: 90px;
 }
 
-.carve-in{
-      padding: 8px;
-      border-radius: 6px;
-      background-color: #0d1117;
-      /*box-shadow: 12px 12px 12px rgba(0, 7, 19, 0.6)
-      * */
+.card:hover {
+      transform: translateY(-15px) translateX(-5px);
+      box-shadow: 12px 12px 12px 12px rgba(0, 7, 19, 0.6)
 }

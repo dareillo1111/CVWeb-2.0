@@ -27,8 +27,8 @@ class CardLogic {
             await this.controller.loadLogic(this);
             await this.loadCardElement("./emptyCard.html");
             await this.loadCardElement("./emptyCard.html");
-            await this.loadCardElement("./presentationCard.html");
             await this.loadCardElement("./emptyCard.html");
+            await this.loadCardElement("./presentationCard.html");
       }
 }
 

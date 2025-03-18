@@ -7,7 +7,7 @@ body {
       user-select: none;
       background-color: #0d1117;
       justify-content: center;
-      font-size: clamp(12px, 1.5vw, 18px);
+      font-size: clamp(14px, min(1.5vw, 2vh), 18px);
       font-family: monospace;
 }
 
@@ -36,7 +36,6 @@ ul {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5%;
       height: 80%;
       background-color: #131e2c;
       color: #f2f2f2;
@@ -47,20 +46,27 @@ ul {
       transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.card-body {
+      display: grid;
+      grid-auto-rows: max-content;
+      height: 100%;
+      margin: 25px;
+      gap: 20px;
+}
+
 .card-title {
-      margin-left: 6%;
-      margin-right: 6%;
-      margin-top: 6%;
+      text-align: center;
       color: #876dc7;
       font-weight: bold;
-      font-size: clamp(16px, 3vw, 31px);
+      font-size: clamp(18px, min(1.8vw, 3.2vh), 31px);
+      padding-bottom: 10px;
 }
 
 #presentation-images{
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 86%;
+      width: 100%;
       position: relative;
 }
 
@@ -77,14 +83,10 @@ ul {
       font-weight: bold;
 }
 
-.highlight-blue {
-      color: #598cd0;
-}
-
 .description{
       border-radius: 6px;
       background-color: #0d1117;
-      width: 82%;
+      width: 96%;
       padding: 1% 2% 1% 2%;
       word-break: break-word;
 }
@@ -99,7 +101,6 @@ ul {
 }
 
 .logo{
-      user-select: none;
       width: 13%;
       border-radius: 90px;
 }
@@ -107,4 +108,10 @@ ul {
 .card:hover {
       transform: translateY(-15px) translateX(-5px);
       box-shadow: 12px 12px 12px 12px rgba(0, 7, 19, 0.6)
+}
+
+@media(max-height: 675px){
+      .discard-on-mobile{
+            display: none;
+      }
 }

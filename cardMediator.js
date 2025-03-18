@@ -1,13 +1,13 @@
 import { CardController } from "./cardController.js";
 import { CardAnimator } from "./cardAnimator.js";
 
-class CardLogic {
+class CardMediator {
       constructor(){
             this.controller = new CardController(
                   document.getElementById("deck")
             );
 
-            this.cardAnimator = new CardAnimator ()
+            this.cardAnimator = new CardAnimator ();
       }
 
       async loadCardElement(cardFile){
@@ -19,12 +19,20 @@ class CardLogic {
             this.controller.loadCard(card);
       }
 
-      async cardClicked(event, card){
-            this.cardAnimator.cardClicked(event, card);
+      async cardClicked(clientX, clientY, card){
+            this.cardAnimator.cardClicked(clientX, clientY, card);
+      }
+
+      async cardDraged(clientX, clientY){
+            this.cardAnimator.moveCard(clientX, clientY);
+      }
+
+      async cardDroped(){
+            this.cardAnimator.dropCard();
       }
 
       async initialize(){
-            await this.controller.loadLogic(this);
+            await this.controller.loadMediator(this);
             await this.loadCardElement("./emptyCard.html");
             await this.loadCardElement("./emptyCard.html");
             await this.loadCardElement("./emptyCard.html");
@@ -32,7 +40,7 @@ class CardLogic {
       }
 }
 
-const logic = new CardLogic();
+const logic = new CardMediator();
 logic.initialize();
 
 

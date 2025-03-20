@@ -1,9 +1,11 @@
-html {
+html, body{
       height: 100%;
+      padding: 0px;
+      margin: 0px;
+      overflow: hidden;
 }
 
 body {
-      height: 100%;
       user-select: none;
       background-color: #0d1117;
       justify-content: center;

@@ -1,7 +1,7 @@
 export class CardAnimator {
       constructor (isShortDiscardDistance){
             this.LARGEDISCARDDISTANCE = 300;
-            this.SHORTDISCARDDISTANCE = 100;
+            this.SHORTDISCARDDISTANCE = 125;
 
             this.discardDistance = isShortDiscardDistance ? 
                   this.SHORTDISCARDDISTANCE : this.LARGEDISCARDDISTANCE
@@ -37,7 +37,8 @@ export class CardAnimator {
 
             if (this.isInDiscardDistance()){
                   let zIndex = - (20 - this.zIndexCounter++);
-
+                  console.log(this.discardDistance == this.SHORTDISCARDDISTANCE, " !!")
+                  console.log(this.discardDistance)
                   if (this.discardDistance == this.SHORTDISCARDDISTANCE){
                         this.animateAndRemoveCard(zIndex);
                   }else {
@@ -55,7 +56,6 @@ export class CardAnimator {
       async animateAndRemoveCard(zIndex){
             const cardElement = this.selectedCard.cardElement;
 
-            console.log("NOOOOOOOW")
             if (this.selectedCard.lastTranslate.x < 0){
                   this.selectedCard.setTranslate({x:-2000, y:0})
             }else {
@@ -68,7 +68,7 @@ export class CardAnimator {
             });
       }
 
-      async isInDiscardDistance(){
+      isInDiscardDistance(){
             let x = this.selectedCard.lastTranslate.x;
             return Math.abs(x) > this.discardDistance;
       }

@@ -48,7 +48,6 @@ export class Card {
       }
 
       async dropCard(){
-            console.log("cardDroped")
             this.lastTranslate.x += this.translate.x;
             this.lastTranslate.y += this.translate.y;
             this.translate = { x: 0, y: 0};

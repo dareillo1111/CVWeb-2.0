@@ -7,7 +7,11 @@ class CardMediator {
                   document.getElementById("deck")
             );
 
-            this.cardAnimator = new CardAnimator ();
+            let discardValue = 100;
+            if (document.body.clientWidth > 1100){
+                  discardValue = 300;
+            }
+            this.cardAnimator = new CardAnimator (discardValue);
       }
 
       async loadCardElement(cardFile){

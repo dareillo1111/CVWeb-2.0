@@ -1,6 +1,10 @@
 export class CardAnimator {
-      constructor (){
-            this.DISCARDDISTANCE = 300;
+      constructor (isShortDiscardDistance){
+            this.LARGEDISCARDDISTANCE = 300;
+            this.SHORTDISCARDDISTANCE = 100;
+
+            this.discardDistance = isShortDiscardDistance ? 
+                  this.SHORTDISCARDDISTANCE : this.LARGEDISCARDDISTANCE
             this.selectedCard = null;
             this.mouseClickPosition = { x: 0, y: 0 };
             this.mouseActualPosition = { x: 0, y: 0 };
@@ -13,10 +17,9 @@ export class CardAnimator {
             this.mouseActualPosition.y = clientY;
 
             this.movedDistance.x = 
-                  (this.mouseClickPosition.x - this.mouseActualPosition.x)* -1;
+                  - (this.mouseClickPosition.x - this.mouseActualPosition.x);
             this.movedDistance.y = 
-                  (this.mouseClickPosition.y - this.mouseActualPosition.y) * -1;
-            console.log(this.movedDistance)
+                  - (this.mouseClickPosition.y - this.mouseActualPosition.y);
 
             this.selectedCard.setAnimationSpeed(0.1);
             this.selectedCard.setTranslate(this.movedDistance);
@@ -25,12 +28,22 @@ export class CardAnimator {
       }
 
       async dropCard(){
-            this.selectedCard.dropCard();
+            if (this.selectedCard == null){
+                  return;
+            }
 
-            if (Math.abs(this.selectedCard.lastTranslate.x) > this.DISCARDDISTANCE 
-                  || Math.abs(this.selectedCard.lastTranslate.y) > this.DISCARDDISTANCE){
-                  let zIndex = (10000 - this.zIndexCounter++) * -1;
-                  this.transformCard(0.5,50,0.4,zIndex);
+            this.selectedCard.dropCard();
+            console.log(this.selectedCard.lastTranslate)
+
+            if (this.isInDiscardDistance()){
+                  let zIndex = - (20 - this.zIndexCounter++);
+
+                  if (this.discardDistance == this.SHORTDISCARDDISTANCE){
+                        this.animateAndRemoveCard(zIndex);
+                  }else {
+                        this.transformCard(0.5,50,0.4,zIndex);
+                  }
+
             } else {
                   this.selectedCard.center();
                   this.transformCard(1,100,0.4,this.zIndexCounter++);
@@ -39,12 +52,31 @@ export class CardAnimator {
             this.selectedCard = null;
       }
 
+      async animateAndRemoveCard(zIndex){
+            const cardElement = this.selectedCard.cardElement;
+
+            console.log("NOOOOOOOW")
+            if (this.selectedCard.lastTranslate.x < 0){
+                  this.selectedCard.setTranslate({x:-2000, y:0})
+            }else {
+                  this.selectedCard.setTranslate({x:2000, y:0});
+            }
+            this.transformCard(0.5,50,1.5,zIndex);
+
+            this.selectedCard.cardElement.addEventListener("transitionend", () =>{
+                  cardElement.remove();
+            });
+      }
+
+      async isInDiscardDistance(){
+            let x = this.selectedCard.lastTranslate.x;
+            return Math.abs(x) > this.discardDistance;
+      }
+
       async cardClicked(clientX, clientY, card){
             this.selectedCard = card;
-            console.log(clientX, " !!")
             this.mouseClickPosition.x = clientX;
             this.mouseClickPosition.y = clientY;
-            console.log(this.mouseClickPosition);
             this.transformCard(1,100,0.4,this.zIndexCounter++);
       }
 
@@ -55,6 +87,5 @@ export class CardAnimator {
             this.selectedCard.setZIndex(zIndex);
             this.selectedCard.loadNewProperties();
             this.selectedCard.setAnimationSpeed(this.selectedCard.BASEANIMATIONSPEED);
-            console.log(this.selectedCard.zIndex)
       }
 }

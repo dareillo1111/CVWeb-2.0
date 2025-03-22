@@ -27,52 +27,6 @@ export class CardAnimator {
             this.selectedCard.setAnimationSpeed(this.selectedCard.BASEANIMATIONSPEED);
       }
 
-      async dropCard(){
-            if (this.selectedCard == null){
-                  return;
-            }
-
-            this.selectedCard.dropCard();
-            console.log(this.selectedCard.lastTranslate)
-
-            if (this.isInDiscardDistance()){
-                  let zIndex = - (20 - this.zIndexCounter++);
-                  console.log(this.discardDistance == this.SHORTDISCARDDISTANCE, " !!")
-                  console.log(this.discardDistance)
-                  if (this.discardDistance == this.SHORTDISCARDDISTANCE){
-                        this.animateAndRemoveCard(zIndex);
-                  }else {
-                        this.transformCard(0.5,50,0.4,zIndex);
-                  }
-
-            } else {
-                  this.selectedCard.center();
-                  this.transformCard(1,100,0.4,this.zIndexCounter++);
-            }
-
-            this.selectedCard = null;
-      }
-
-      async animateAndRemoveCard(zIndex){
-            const cardElement = this.selectedCard.cardElement;
-
-            if (this.selectedCard.lastTranslate.x < 0){
-                  this.selectedCard.setTranslate({x:-2000, y:0})
-            }else {
-                  this.selectedCard.setTranslate({x:2000, y:0});
-            }
-            this.transformCard(0.5,50,1.5,zIndex);
-
-            this.selectedCard.cardElement.addEventListener("transitionend", () =>{
-                  cardElement.remove();
-            });
-      }
-
-      isInDiscardDistance(){
-            let x = this.selectedCard.lastTranslate.x;
-            return Math.abs(x) > this.discardDistance;
-      }
-
       async cardClicked(clientX, clientY, card){
             this.selectedCard = card;
             this.mouseClickPosition.x = clientX;
@@ -87,5 +41,67 @@ export class CardAnimator {
             this.selectedCard.setZIndex(zIndex);
             this.selectedCard.loadNewProperties();
             this.selectedCard.setAnimationSpeed(this.selectedCard.BASEANIMATIONSPEED);
+      }      
+
+      isInDiscardDistance(){
+            let x = this.selectedCard.lastTranslate.x;
+            return Math.abs(x) > this.discardDistance;
+      }
+
+      async dropCard(){
+            if (this.selectedCard == null){
+                  return;
+            }
+
+            this.selectedCard.dropCard();
+
+            if (this.isInDiscardDistance()){
+                  let negativeZIndex = - (20 - this.zIndexCounter++);
+
+                  if (this.discardDistance == this.SHORTDISCARDDISTANCE){
+                        this.transformAndRemoveCard(this.zIndexCounter);
+                  }else {
+                        this.transformCard(0.5,50,0.4,negativeZIndex);
+                  }
+
+            } else {
+                  this.selectedCard.center();
+                  this.transformCard(1,100,0.4,this.zIndexCounter++);
+            }
+
+            this.selectedCard = null;
+      }
+
+      async transformAndRemoveCard(zIndex){
+            const cardElement = this.selectedCard.cardElement;
+
+            //Si cuando la carta se suelta está a la izquierda o a la derecha
+            if (this.selectedCard.lastTranslate.x < 0){
+                  this.selectedCard.setTranslate({x:-2000, y:0})
+            }else {
+                  this.selectedCard.setTranslate({x:2000, y:0});
+            }
+
+            this.transformCard(0.5,50,1.5,zIndex);
+
+            this.selectedCard.cardElement.addEventListener("transitionend", () =>{
+                  cardElement.remove();
+            });
+      }
+
+      async animateNewCard(card){
+            //que se salga de la pantalla
+            card.setTranslate({x:-2500,y:0});
+            card.hide(false);
+            card.setZIndex(this.zIndexCounter);
+            card.loadNewProperties();
+            //darle tiempo a cargar las propiedades anteriores
+            await new Promise(resolve => setTimeout(resolve,20));
+            card.setAnimationType = "ease-out";
+            card.setAnimationSpeed(0.5)
+            card.center();
+            card.loadNewProperties();
+            card.setAnimationType = card.BASEANIMATIONTYPE;
+            card = null;
       }
 }

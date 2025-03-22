@@ -18,7 +18,9 @@ class CardMediator {
             const parser = new DOMParser();
             const doc = parser.parseFromString(responseHTML, "text/html");
             const card  = doc.querySelector("div");
-            this.controller.loadCard(card);
+            const loadedCard = await this.controller.loadCard(card);
+            this.cardAnimator.animateNewCard(loadedCard);
+            await new Promise(resolve => setTimeout(resolve,50));
       }
 
       async cardClicked(clientX, clientY, card){
@@ -35,15 +37,29 @@ class CardMediator {
 
       async initialize(){
             await this.controller.loadMediator(this);
-            await this.loadCardElement("./emptyCard.html");
-            await this.loadCardElement("./emptyCard.html");
+      }
+
+      async aboutMeClicked(){
             await this.loadCardElement("./emptyCard.html");
             await this.loadCardElement("./presentationCard.html");
+            await this.loadCardElement("./emptyCard.html");
+            await this.loadCardElement("./presentationCard.html");
+      }
+
+      async projectsClicked(){
+            await this.loadCardElement("./presentationCard.html");
+            await this.loadCardElement("./presentationCard.html");
+            await this.loadCardElement("./presentationCard.html");
+            await this.loadCardElement("./presentationCard.html");
+      }
+
+      async contactClicked(){
+            await this.loadCardElement("./emptyCard.html");
+            await this.loadCardElement("./emptyCard.html");
+            await this.loadCardElement("./emptyCard.html");
+            await this.loadCardElement("./emptyCard.html");
       }
 }
 
 const logic = new CardMediator();
 logic.initialize();
-
-
-
